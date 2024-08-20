@@ -19,7 +19,7 @@
 #  DEALINGS IN THE SOFTWARE.
 
 # from itertools import izip
-from random import normalvariate, random
+import random
 from datetime import timedelta, datetime
 
 import csv
@@ -64,7 +64,7 @@ def bwalk(min, max, std):
     """ Generates a bounded random walk. """
     rng = max - min
     while True:
-        max += normalvariate(0, std)
+        max += random.normalvariate(0, std)
         yield abs((max % (rng * 2)) - rng) + min
 
 
@@ -82,10 +82,10 @@ def orders(hist):
         a series of market conditions.
     """
     for t, px, spd in hist:
-        stock = 'ABC' if random() > 0.5 else 'DEF'
-        side, d = ('sell', 2) if random() > 0.5 else ('buy', -2)
-        order = round(normalvariate(px + (spd / d), spd / OVERLAP), 2)
-        size = int(abs(normalvariate(0, 100)))
+        stock = 'ABC' if random.random() > 0.5 else 'DEF'
+        side, d = ('sell', 2) if random.random() > 0.5 else ('buy', -2)
+        order = round(random.normalvariate(px + (spd / d), spd / OVERLAP), 2)
+        size = int(abs(random.normalvariate(0, 100)))
         yield t, stock, side, order, size
 
 
@@ -218,7 +218,7 @@ def get(req_handler, routes):
                 return
 
 
-def run(routes, host='0.0.0.0', port=8080):
+def run(routes: object, host: object = '0.0.0.0', port: object = 8080) -> object:
     """ Runs a class as a server whose methods have been decorated with
         @route.
     """
